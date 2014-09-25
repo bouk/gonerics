@@ -1,0 +1,1 @@
+type Chan chan T
