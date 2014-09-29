@@ -8,7 +8,7 @@ server {
         gzip off;
 
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME /home/bouke/gonerics/cgi.bash;
+        fastcgi_param SCRIPT_FILENAME /home/bouke/gonerics/cgi.sh;
         fastcgi_param GIT_HTTP_EXPORT_ALL "";
         fastcgi_param GIT_PROJECT_ROOT /home/bouke/git;
         fastcgi_param GIT_REPO_PATH $git_repo;
@@ -20,5 +20,5 @@ server {
 
         fastcgi_pass  unix:/var/run/fcgiwrap.socket;
     }
-
+    
 }

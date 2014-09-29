@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 set -ex
 
 SERVER=gonerics.io
 
-remote() {
+remote () {
     ssh $SERVER "$1"
 }
 
 remote "mkdir -p ~/gonerics"
-scp -r cgi.bash *.go nginx-config templates/ $SERVER:~/gonerics/
+scp -r cgi.sh *.go nginx-config templates/ $SERVER:~/gonerics/
 remote "cd ~/gonerics && export GOPATH=\"\$(mktemp -d)\" && go get -d && go build"
 remote "sudo ln -sf /home/bouke/gonerics/nginx-config /etc/nginx/sites-enabled/gonerics; sudo service nginx reload"
 remote "sudo rm -rf ~/git/*"
