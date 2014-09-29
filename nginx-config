@@ -1,0 +1,24 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    server_name localhost;
+
+    location ~ (?<git_repo>/(?<template_type>g|d|f)/(?<name>[a-zA-Z_0-9]+)/(?<parameters>(?:[A-Za-z0-9_\-/]\.?)+))(?<path>/(?:info/refs|git\-upload\-pack)) {
+        gzip off;
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME /home/bouke/gonerics/cgi.bash;
+        fastcgi_param GIT_HTTP_EXPORT_ALL "";
+        fastcgi_param GIT_PROJECT_ROOT /home/bouke/git;
+        fastcgi_param GIT_REPO_PATH $git_repo;
+        fastcgi_param PATH_INFO $git_repo$path;
+
+        fastcgi_param TEMPLATE_TYPE $template_type;
+        fastcgi_param NAME $name;
+        fastcgi_param PARAMETERS $parameters;
+
+        fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+    }
+
+}
